@@ -67,7 +67,7 @@ def playerStandings():
     """
     DB = connect()
     c = DB.cursor()
-    c.execute("select * from standings;")
+    c.execute("select * from standings order by t_wins")
     results = c.fetchall()
     DB.commit()
     DB.close()
@@ -86,7 +86,7 @@ def reportMatch(winner, loser):
     [(winner),(loser)])
     DB.commit()
     DB.close()
-	
+
 def swissPairings():
     """Returns a list of pairs of players for the next round of a match.
   
@@ -102,10 +102,16 @@ def swissPairings():
         id2: the second player's unique id
         name2: the second player's name
     """
+    pairs = []
     DB = connect()
-	c = DB.cursor()
-    c.execute()
-	results = fetchall()
+    c = DB.cursor()
+    c.execute("SELECT id, name from standings")
+    results = c.fetchall()
     DB.commit()
-	DB.close()
-
+    DB.close()
+    players = playerStandings()
+    while len(players) > 1:
+        player1 = players.pop()
+        player2 = players.pop()		
+        pairs.append((player1[0], player1[1], player2[0], player2[1]))
+    return pairs
