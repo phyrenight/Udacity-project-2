@@ -67,7 +67,7 @@ def playerStandings():
     """
     DB = connect()
     c = DB.cursor()
-    c.execute("select * from standings order by t_wins")
+    c.execute("select * from standings order by total_wins desc")
     results = c.fetchall()
     DB.commit()
     DB.close()
