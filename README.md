@@ -4,7 +4,7 @@ This is a Udacity student project that tries to replicate the swiss pairing syst
 ## Installation
 
 to run this program you need to have:
-- sqlite
+- postgres
 - python 2.7
 
      
@@ -12,5 +12,6 @@ or follow the instructions [here](https://www.udacity.com/wiki/ud197/install-vag
 
 
 ## To run program 
-navigate to the directory that contains the 
-type `python test.py`
+-navigate to the directory that contains the
+-type `psql -f tournament.sql`
+-type `python tournament_test.py`
