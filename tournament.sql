@@ -13,8 +13,8 @@ DROP DATABASE TOURNAMENT;
 CREATE DATABASE TOURNAMENT;
 \connect tournament
 -- creates the tournament tables
-CREATE TABLE PLAYERS ( id SERIAL, name TEXT);
-CREATE TABLE MATCHES( match_up SERIAL,  winner INTEGER,  loser INTEGER);
+CREATE TABLE PLAYERS ( id SERIAL PRIMARY KEY, name TEXT);
+CREATE TABLE MATCHES( match_up SERIAL PRIMARY KEY,  winner INTEGER,  loser INTEGER);
 
 -- create the views for the tournament
 CREATE VIEW T_MATCHES AS SELECT PLAYERS.id AS id, PLAYERS.name AS name,
