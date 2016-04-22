@@ -12,6 +12,6 @@ or follow the instructions [here](https://www.udacity.com/wiki/ud197/install-vag
 
 
 ## To run program 
-- navigate to the directory that contains the
+- navigate to the directory that contains the files
 - type `psql -f tournament.sql`
 - type `python tournament_test.py`
