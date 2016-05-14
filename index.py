@@ -15,7 +15,7 @@ def menu():
         choice = raw_input("> ")
         if choice == '1':
             print "Enter a player's name:"
-            name = raw_input("> ")
+            name = raw_input("> ") # make a check to ensure that a name is inputted
             tournament.registerPlayer(name)
         elif choice == '2':
             numberOfPlayers = tournament.countPlayers()
@@ -60,16 +60,23 @@ def updateMatches():
     for i in tournament.swissPairings():
         print i
     print "Please enter the winners id "
-    winner = int(raw_input("> "))
+    winner = int(raw_input("> ")) # add test make sure id is in tournament
     print "Print enter the losers id "
-    loser = int(raw_input("> "))
+    loser = int(raw_input("> ")) # add test to make sure id is assigned to a player
     tournament.reportMatch(winner,loser)
     for i in tournament.swissPairings():
         print i
 
 
+def displayCurrentMatches():
+
+    for i in tournament.swissPairings():
+        print "match: {}({}) vs {}({})".format(i[1], i[0], i[3], i[2])
+
+
 if __name__ == "__main__":
     displayStandings()
     tournament.connect()
-    updateMatches()
+   # updateMatches()
+    displayCurrentMatches()
     menu()
