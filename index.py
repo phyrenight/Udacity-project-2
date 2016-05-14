@@ -50,10 +50,26 @@ def menu():
             print "Invalid entry"
 
 
+def displayStandings():
+    results =  tournament.playerStandings()
+    print "Current standings are: "
+    for i in results:
+        print i
 
-
+def updateMatches():
+    for i in tournament.swissPairings():
+        print i
+    print "Please enter the winners id "
+    winner = int(raw_input("> "))
+    print "Print enter the losers id "
+    loser = int(raw_input("> "))
+    tournament.reportMatch(winner,loser)
+    for i in tournament.swissPairings():
+        print i
 
 
 if __name__ == "__main__":
+    displayStandings()
     tournament.connect()
+    updateMatches()
     menu()
