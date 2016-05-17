@@ -16,18 +16,27 @@ def menu():
         if choice == '1':
             print "Enter a player's name:"
             name = raw_input("> ") # make a check to ensure that a name is inputted
-            tournament.registerPlayer(name)
-        elif choice == '2':
+            if name != "" or name != " ":
+                tournament.registerPlayer(name)
+            else:
+                print "Invalid name"
+        elif choice == '2':   
             numberOfPlayers = tournament.countPlayers()
             if numberOfPlayers < 6:
                 print "Insufficient number of players. Tournament can not be started."
             else:
-            	choice = 'q'
-                startTournamentMenu()
+                print "Do you wish to start the tournament?"
+                print "You will not be able to add anymore players if you do."
+                print "Enter yes to continue and no to cancel."
+                start = raw_input("> ")
+                if start == 'yes':
+                    startTournamentMenu()
+                else:
+                    print "start of tournament cancelled"
         elif choice == '3':
         	players = tournament.playerStandings()
         	for i in players:  # try turning these two lines into a list comprehension
-        	    print i        # 2
+        	    print "player's name: {} id: {}".format(i[1], i[0])        # 2
         elif choice == '4':
             print " Are you sure you want to erase the database:(y/n)"
             answer = raw_input("> ")
@@ -81,6 +90,7 @@ def startTournamentMenu():
     """
         menu to update each match. To view the standings and the match line ups
     """
+    currentLineup = tournament.swissPairings()
     numberOfPlayers = tournament.countPlayers()
     totalMatches = numberOfPlayers * (numberOfPlayers-1)
     print numberOfPlayers, totalMatches
