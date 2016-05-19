@@ -32,6 +32,7 @@ def menu():
                 print "Enter yes to continue and no to cancel."
                 start = raw_input("> ")
                 if start == 'yes':
+                    choice = 'quit'
                     startTournamentMenu()
                 else:
                     print "start of tournament cancelled"
@@ -66,11 +67,11 @@ def displayStandings():
          {} ".format(i[0], i[1], i[2], i[3])
 
 
-def updateMatches():
+def updateMatches(currentLineUp):
     """
         Used to to get wins/loses of the players.
     """
-    displayCurrentMatches()
+    displayCurrentMatches(currentLineUp)
     print "Please enter the winners id "
     winner = int(raw_input("> "))  # add test make sure id is in tournament
     print "Print enter the losers id "
@@ -82,14 +83,15 @@ def updateMatches():
     # add a feature that has the user verify that the right id's
     # are being updated.
     tournament.reportMatch(winner, loser)
-    displayCurrentMatches()
+    MatchesPlayedThisRound += 1
+    displayCurrentMatches(currentLineUp)
 
 
-def displayCurrentMatches():
+def displayCurrentMatches(currentLineUp):
     """
        Displays the current matches taking place this round.
     """
-    for i in tournament.swissPairings():
+    for i in currentLineUp:
         print "match: {}({}) vs {}({})".format(i[1], i[0], i[3], i[2])
 
 
@@ -97,33 +99,57 @@ def startTournamentMenu():
     """
         menu to update each match. To view the standings and the match line ups
     """
-    currentLineup = tournament.swissPairings()
+
+    currentLineUp = tournament.swissPairings()
     numberOfPlayers = tournament.countPlayers()
+    totalMatchesPlayed = 0
+    matchesPlayedThisRound = 0
     totalMatches = numberOfPlayers * (numberOfPlayers-1)
     print numberOfPlayers, totalMatches
     choice = ""
     while choice != 'quit':
+        if matchesPlayedThisRound == numberOfPlayers/2:
+            # checks to see if all the matches were played for the round
+            currentLineUp = tournament.swissPairings()
+            matchesPlayedThisRound = 0
+            displayCurrentMatches()
         print "How would you like to proceed:"
         print "1) Display current matches"
         print "2) Display player's current standings"
         print "3) Update current matches"
         print "Enter quit to exit"
-        choice = raw_input("> ")
-        if choice == 1:
-            displayCurrentMatches()
-        elif choice == 2:
+        if totalMatchesPlayed == totalMatches:
+            player = getTopThree()
+            print "tournament has ended"
+            print "1st place winner is: {}".format(player.next())
+            print "2nd place winner is: {}".format(player.next())
+            print "3rd place winner is: {}".format(player.next())
+            choice = 'quit'
+        else:
+            choice = raw_input("> ")
+        if choice == '1':
+            displayCurrentMatches(currentLineUp)
+        elif choice == '2':
             displayStandings()
-        elif choice == 3:
-            updateMatches()
+        elif choice == '3':
+            updateMatches(currentLineUp)
         elif choice == 'quit':
             print "Exiting now"
         else:
             print "{} is an invalid choice, please try again".format(choice)
 
 
+def getTopThree():
+    """
+        returns the top three players one at a time
+    """
+    for i in tournament.playerStandings():
+        yield i[1]
+
+
 if __name__ == "__main__":
     displayStandings()
     tournament.connect()
     # updateMatches()
-    displayCurrentMatches()
+    displayCurrentMatches(tournament.playerStandings())
     menu()
